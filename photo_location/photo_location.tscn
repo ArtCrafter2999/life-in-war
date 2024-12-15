@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://wk6mc1w1bwio"]
+
+[ext_resource type="Script" path="res://photo_location/photo_location.gd" id="1_t1x6e"]
+
+[node name="PhotoLocation" type="Area2D"]
+script = ExtResource("1_t1x6e")

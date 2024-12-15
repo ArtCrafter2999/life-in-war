@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=3 uid="uid://gq5yin4ptyi4"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_b3m35"]
+[ext_resource type="Texture2D" uid="uid://cixhno4hvh0k2" path="res://icon.svg" id="2_3qb8h"]
+[ext_resource type="Script" path="res://player/photo_area.gd" id="3_2tdfc"]
+[ext_resource type="Script" path="res://player/camera_icon.gd" id="3_rksob"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3gaqb"]
+radius = 60.531
+
+[node name="MainScene" type="Node2D"]
+
+[node name="Player" type="CharacterBody2D" parent="."]
+motion_mode = 1
+script = ExtResource("1_b3m35")
+
+[node name="Sprite" type="Sprite2D" parent="Player"]
+texture = ExtResource("2_3qb8h")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_3gaqb")
+
+[node name="Camera" type="Camera2D" parent="Player"]
+
+[node name="PhotoController" type="Area2D" parent="Player"]
+script = ExtResource("3_2tdfc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/PhotoController"]
+shape = SubResource("CircleShape2D_3gaqb")
+
+[node name="PhotoTimer" type="Timer" parent="Player/PhotoController"]
+wait_time = 3.0
+one_shot = true
+
+[node name="PhotoAvailableUI" type="Sprite2D" parent="Player/PhotoController"]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(0, -117)
+scale = Vector2(0.427, 0.427)
+texture = ExtResource("2_3qb8h")
+script = ExtResource("3_rksob")
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(-479, -47)
+texture = ExtResource("2_3qb8h")
+
+[connection signal="start_moving" from="Player" to="Player/PhotoController" method="_on_start_moving"]
+[connection signal="stopped_moving" from="Player" to="Player/PhotoController" method="_on_stopped_moving"]
+[connection signal="can_photo" from="Player/PhotoController" to="Player/PhotoController/PhotoAvailableUI" method="fade_in"]
+[connection signal="cant_photo" from="Player/PhotoController" to="Player/PhotoController/PhotoAvailableUI" method="fade_out"]
+[connection signal="timeout" from="Player/PhotoController/PhotoTimer" to="Player/PhotoController" method="_on_timer_timeout"]
