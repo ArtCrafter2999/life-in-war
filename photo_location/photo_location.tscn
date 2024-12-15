@@ -3,4 +3,7 @@
 [ext_resource type="Script" path="res://photo_location/photo_location.gd" id="1_t1x6e"]
 
 [node name="PhotoLocation" type="Area2D"]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
 script = ExtResource("1_t1x6e")

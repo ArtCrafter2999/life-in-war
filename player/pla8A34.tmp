@@ -1,0 +1,128 @@
+[gd_scene load_steps=10 format=3 uid="uid://f15d5nw2saa1"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_m04ww"]
+[ext_resource type="Texture2D" uid="uid://cixhno4hvh0k2" path="res://icon.svg" id="2_aqhrw"]
+[ext_resource type="Script" path="res://state_machine/state_machine.gd" id="2_seln4"]
+[ext_resource type="Script" path="res://player/states/walk_state.gd" id="3_l380g"]
+[ext_resource type="Script" path="res://player/states/inspired_state.gd" id="3_p2ble"]
+[ext_resource type="Script" path="res://player/states/check_insperation.gd" id="5_nxewv"]
+[ext_resource type="Script" path="res://player/states/show_photo_state.gd" id="8_nf2ve"]
+
+[sub_resource type="GDScript" id="GDScript_18huw"]
+script/source = "extends Area2D
+
+@onready var photo_timer: Timer = $PhotoTimer
+@onready var photo_available_ui: Sprite2D = $PhotoAvailableUI
+@onready var photo_image: TextureRect = $PhotoLayer/PhotoImage
+
+var photo_location: PhotoLocation;
+signal can_photo();
+signal cant_photo();
+
+func make_no_photo() -> void:
+	if(photo_location):
+		photo_location = null;
+		cant_photo.emit();
+	photo_timer.stop();
+
+func _on_stopped_moving() -> void:
+	photo_timer.start();
+
+func _get_photo_location():
+	var areas = get_overlapping_areas() as Array[PhotoLocation]
+	if(areas.size() == 0): 
+		photo_location = null;
+		return;
+	if(areas.size() > 1): 
+		areas.sort_custom(func (a, b): a.area < b.area)
+	photo_location = areas[0];
+
+func _on_timer_timeout() -> void:
+	_get_photo_location()
+	if(photo_location):
+		can_photo.emit();
+
+var action_pressed = false;
+func _input(event: InputEvent) -> void:
+	if(event.is_action(\"Photo\")):
+		if(photo_location):
+			player.can_walk = false;
+			photo_image.visible = true;
+			photo_image.texture = photo_location.take_photo();
+			make_no_photo();
+		
+		return;
+	if(!action_pressed && event.is_pressed()):
+		action_pressed = true;
+	if(event.is_released() && action_pressed && photo_image.visible):
+		player.can_walk = true;
+		photo_image.visible = false;
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3gaqb"]
+radius = 60.531
+
+[node name="Player" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_m04ww")
+
+[node name="States" type="Node2D" parent="." node_paths=PackedStringArray("begining_state")]
+script = ExtResource("2_seln4")
+begining_state = NodePath("WalkState")
+
+[node name="WalkState" type="Node2D" parent="States" node_paths=PackedStringArray("long_idle_state")]
+script = ExtResource("3_l380g")
+long_idle_state = NodePath("../CheckInsperation")
+
+[node name="PhotoTimer" type="Timer" parent="States/WalkState"]
+wait_time = 5.0
+
+[node name="CheckInsperation" type="Node2D" parent="States" node_paths=PackedStringArray("no_inspiration_state", "inspiration_state")]
+script = ExtResource("5_nxewv")
+no_inspiration_state = NodePath("../WalkState")
+inspiration_state = NodePath("../InspiredState")
+
+[node name="InsperationArea" type="Area2D" parent="States/CheckInsperation"]
+collision_mask = 2
+monitorable = false
+script = SubResource("GDScript_18huw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="States/CheckInsperation/InsperationArea"]
+shape = SubResource("CircleShape2D_3gaqb")
+
+[node name="InspiredState" type="Node2D" parent="States" node_paths=PackedStringArray("moved_state", "make_photo_state")]
+script = ExtResource("3_p2ble")
+moved_state = NodePath("../WalkState")
+make_photo_state = NodePath("../ShowPhotoState")
+
+[node name="PhotoAvailableUI" type="Sprite2D" parent="States/InspiredState"]
+modulate = Color(1, 1, 1, 0)
+z_index = 10
+position = Vector2(0, -117)
+scale = Vector2(0.427, 0.427)
+texture = ExtResource("2_aqhrw")
+
+[node name="ShowPhotoState" type="Node2D" parent="States"]
+script = ExtResource("8_nf2ve")
+
+[node name="PhotoLayer" type="CanvasLayer" parent="States/ShowPhotoState"]
+
+[node name="PhotoImage" type="TextureRect" parent="States/ShowPhotoState/PhotoLayer"]
+visible = false
+offset_left = 364.0
+offset_top = 17.0
+offset_right = 838.0
+offset_bottom = 601.0
+rotation = 0.0523599
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_aqhrw")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3gaqb")
+
+[node name="Camera" type="Camera2D" parent="."]
+
+[connection signal="timeout" from="States/WalkState/PhotoTimer" to="States/WalkState" method="_on_timer_timeout"]
