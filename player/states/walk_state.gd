@@ -1,7 +1,7 @@
 extends StateBase
 
 @export var long_idle_state: StateBase;
-const speed = 300.0;
+const SPEED = 20.0;
 
 @onready var photo_timer: Timer = $PhotoTimer;
 @onready var player: CharacterBody2D = $"../..";
@@ -14,10 +14,7 @@ func physics_process(delta: float) -> void:
 	if(!prev_direction && direction): photo_timer.stop();
 	if(prev_direction && !direction): photo_timer.start();
 	
-	if direction:
-		player.velocity = direction * speed;
-	else:
-		player.velocity = player.velocity.move_toward(Vector2.ZERO, speed);
+	player.velocity += direction * SPEED;
 	
 	player.move_and_slide()
 	prev_direction = direction;

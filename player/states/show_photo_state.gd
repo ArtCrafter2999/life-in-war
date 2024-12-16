@@ -13,6 +13,8 @@ func enter():
 
 var released = false;
 var pressed = false;
+
+
 func input(event: InputEvent): 
 	if(!released):
 		released = event.is_released()
