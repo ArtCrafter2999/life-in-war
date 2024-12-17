@@ -1,38 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://gq5yin4ptyi4"]
+[gd_scene load_steps=4 format=3 uid="uid://gq5yin4ptyi4"]
 
 [ext_resource type="PackedScene" uid="uid://f15d5nw2saa1" path="res://player/player.tscn" id="1_6yjy7"]
-[ext_resource type="Texture2D" uid="uid://cixhno4hvh0k2" path="res://icon.svg" id="2_3qb8h"]
-[ext_resource type="PackedScene" uid="uid://wk6mc1w1bwio" path="res://photo_location/photo_location.tscn" id="5_cs0se"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_v28yn"]
-radius = 197.95
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_8qsjf"]
-radius = 236.23
+[ext_resource type="PackedScene" uid="uid://bwkvqboq5pkjq" path="res://creatures/node/creature.tscn" id="4_12uye"]
+[ext_resource type="Resource" uid="uid://boiqyp25ub7r2" path="res://creatures/resource/test_creature.tres" id="5_bvcjq"]
 
 [node name="MainScene" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_6yjy7")]
 
-[node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(-502.5, -70.5)
-scale = Vector2(0.632813, 0.632813)
-texture = ExtResource("2_3qb8h")
-metadata/_edit_group_ = true
-
-[node name="PhotoLocation" parent="Icon" instance=ExtResource("5_cs0se")]
-photo = ExtResource("2_3qb8h")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Icon/PhotoLocation"]
-shape = SubResource("CircleShape2D_v28yn")
-
-[node name="Icon2" type="Sprite2D" parent="."]
-position = Vector2(-220, -261)
-texture = ExtResource("2_3qb8h")
-metadata/_edit_group_ = true
-
-[node name="PhotoLocation" parent="Icon2" instance=ExtResource("5_cs0se")]
-photo = ExtResource("2_3qb8h")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Icon2/PhotoLocation"]
-shape = SubResource("CircleShape2D_8qsjf")
+[node name="Creature" parent="." instance=ExtResource("4_12uye")]
+position = Vector2(215, 137)
+creature = ExtResource("5_bvcjq")

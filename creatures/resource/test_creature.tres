@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Creature" load_steps=4 format=3 uid="uid://boiqyp25ub7r2"]
+
+[ext_resource type="Script" path="res://creatures/resource/creature.gd" id="1_twmof"]
+[ext_resource type="Texture2D" uid="uid://cixhno4hvh0k2" path="res://icon.svg" id="2_m1p6v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gpvxn"]
+size = Vector2(125, 125)
+
+[resource]
+script = ExtResource("1_twmof")
+texture = ExtResource("2_m1p6v")
+collision = SubResource("RectangleShape2D_gpvxn")
+speed = 1.29

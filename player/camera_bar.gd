@@ -8,7 +8,9 @@ func _process(_delta: float):
 	var point = map(photo_timer.time_left, 0, photo_timer.wait_time, 1.0, 0.0)
 	
 	if walk_state.prev_direction:
-		point = 0.0
+		hide()
+	else:
+		show()
 	
 	material.set("shader_parameter/value", point)
 
