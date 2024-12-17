@@ -6,7 +6,7 @@ const SPEED = 20.0;
 @onready var photo_timer: Timer = $PhotoTimer;
 @onready var player: CharacterBody2D = $"../..";
 
-var prev_direction;
+var prev_direction: Vector2;
 
 func physics_process(delta: float) -> void:
 	var direction = Input.get_vector("Left", "Right", "Up", "Down");

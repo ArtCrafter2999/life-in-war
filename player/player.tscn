@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://f15d5nw2saa1"]
+[gd_scene load_steps=13 format=3 uid="uid://f15d5nw2saa1"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_m04ww"]
 [ext_resource type="Texture2D" uid="uid://cixhno4hvh0k2" path="res://icon.svg" id="2_aqhrw"]
@@ -6,10 +6,18 @@
 [ext_resource type="Script" path="res://player/states/walk_state.gd" id="3_l380g"]
 [ext_resource type="Script" path="res://player/states/inspired_state.gd" id="3_p2ble"]
 [ext_resource type="Script" path="res://player/states/check_insperation.gd" id="5_nxewv"]
+[ext_resource type="Shader" path="res://player/camera_bar.gdshader" id="8_8t3fm"]
 [ext_resource type="Script" path="res://player/states/show_photo_state.gd" id="8_nf2ve"]
+[ext_resource type="Texture2D" uid="uid://3w22h8enexd6" path="res://player/camera_bar.png" id="9_jsw10"]
+[ext_resource type="Script" path="res://player/camera_bar.gd" id="10_pifvw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3gaqb"]
 radius = 60.531
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sgxh2"]
+shader = ExtResource("8_8t3fm")
+shader_parameter/modulate = Color(0.352941, 0.921569, 0.831373, 1)
+shader_parameter/value = 0.1
 
 [node name="Player" type="CharacterBody2D"]
 motion_mode = 1
@@ -63,6 +71,15 @@ offset_top = 17.0
 offset_right = 838.0
 offset_bottom = 601.0
 rotation = 0.0523599
+
+[node name="CameraBar" type="Sprite2D" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_sgxh2")
+position = Vector2(1.52588e-05, -1.90735e-06)
+rotation = 3.14159
+scale = Vector2(10.6471, 10.6471)
+texture = ExtResource("9_jsw10")
+script = ExtResource("10_pifvw")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_aqhrw")
