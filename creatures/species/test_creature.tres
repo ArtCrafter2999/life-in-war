@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Creature" load_steps=4 format=3 uid="uid://boiqyp25ub7r2"]
+
+[ext_resource type="Script" path="res://creatures/resource/creature_res.gd" id="1_1qr6n"]
+[ext_resource type="Texture2D" uid="uid://cixhno4hvh0k2" path="res://icon.svg" id="2_1tg7h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gpvxn"]
+size = Vector2(125, 125)
+
+[resource]
+script = ExtResource("1_1qr6n")
+texture = ExtResource("2_1tg7h")
+collision = SubResource("RectangleShape2D_gpvxn")
+speed = 100.0
+curious_weight = 0.0
+frightened_weight = 0.0
+happy_weight = 0.0
+cautious_weight = 0.0
