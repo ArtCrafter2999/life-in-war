@@ -1,14 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://gq5yin4ptyi4"]
+[gd_scene load_steps=5 format=3 uid="uid://gq5yin4ptyi4"]
 
 [ext_resource type="PackedScene" uid="uid://f15d5nw2saa1" path="res://player/player.tscn" id="1_6yjy7"]
-[ext_resource type="PackedScene" uid="uid://bwkvqboq5pkjq" path="res://creatures/node/creature.tscn" id="4_12uye"]
-[ext_resource type="Resource" uid="uid://boiqyp25ub7r2" path="res://creatures/species/test_creature.tres" id="5_bvcjq"]
+[ext_resource type="Texture2D" uid="uid://cixhno4hvh0k2" path="res://icon.svg" id="2_vlpxc"]
+[ext_resource type="PackedScene" uid="uid://wk6mc1w1bwio" path="res://photo_location/photo_location.tscn" id="3_smvgb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5vpm4"]
+radius = 211.91
 
 [node name="MainScene" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_6yjy7")]
 
-[node name="Creature" parent="." instance=ExtResource("4_12uye")]
-position = Vector2(153.929, 98.085)
-velocity = Vector2(-1.08791, -0.693225)
-creature = ExtResource("5_bvcjq")
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-406, -65)
+texture = ExtResource("2_vlpxc")
+metadata/_edit_group_ = true
+
+[node name="PhotoLocation" parent="Sprite2D" instance=ExtResource("3_smvgb")]
+position = Vector2(-1, 0)
+photo = ExtResource("2_vlpxc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/PhotoLocation"]
+shape = SubResource("CircleShape2D_5vpm4")
