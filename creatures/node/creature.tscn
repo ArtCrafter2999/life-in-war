@@ -46,7 +46,7 @@ script = ExtResource("6_mmy67")
 script = ExtResource("7_2wqsw")
 
 [node name="RunTimer" type="Timer" parent="MoodHandler/Happy"]
-autostart = true
+wait_time = 3.0
 
 [node name="Cautious" type="Node" parent="MoodHandler"]
 script = ExtResource("8_0eqbt")

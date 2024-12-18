@@ -73,6 +73,7 @@ offset_bottom = 601.0
 rotation = 0.0523599
 
 [node name="CameraBar" type="Sprite2D" parent="."]
+visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_sgxh2")
 position = Vector2(1.52588e-05, -1.90735e-06)

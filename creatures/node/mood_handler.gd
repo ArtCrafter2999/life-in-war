@@ -6,11 +6,11 @@ extends Node
 @onready var happy: Node = $Happy
 @onready var cautious: Node = $Cautious
 
-var mood: Creature.Mood:
+@export var mood: Creature.Mood:
 	set(new):
 		mood = new
 		
-		
+		reset()
 		if mood == Creature.Mood.CURIOUS:
 			curious.set_process_mode(Node.PROCESS_MODE_PAUSABLE)
 		elif mood == Creature.Mood.FRIGHTENED:

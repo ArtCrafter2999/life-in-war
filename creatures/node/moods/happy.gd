@@ -5,8 +5,9 @@ extends Node
 @onready var run_timer: Timer = $RunTimer
 
 func _process(_delta: float):
-	process_mode
-	
+	if run_timer.is_stopped():
+		run_timer.start()
+
 
 
 func _on_run_timer_timeout():

@@ -10,7 +10,8 @@ func _process(_delta: float):
 	if walk_state.prev_direction:
 		hide()
 	else:
-		show()
+		pass
+		#show()
 	
 	material.set("shader_parameter/value", point)
 
