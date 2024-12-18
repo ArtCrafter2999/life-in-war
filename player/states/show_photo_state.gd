@@ -17,7 +17,7 @@ var pressed = false;
 
 func input(event: InputEvent): 
 	if(!released):
-		released = event.is_released()
+		released = !Input.is_anything_pressed()
 	elif(Input.is_anything_pressed()):
 		pressed = true;
 	elif(pressed && event.is_released()):

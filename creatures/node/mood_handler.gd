@@ -1,6 +1,5 @@
 extends Node
 
-
 @onready var curious: Node = $Curious
 @onready var frightened: Node = $Frightened
 @onready var happy: Node = $Happy

@@ -13,8 +13,3 @@ func take_photo():
 		var image = photo_location.take_photo();
 		photo_location = null;
 		return image;
-
-
-func _input(event: InputEvent):
-	if event.is_action_pressed("ui_select"):
-		Screen.focus()

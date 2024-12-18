@@ -3,7 +3,6 @@ extends Sprite2D
 @onready var photo_timer: Timer = $"../States/WalkState/PhotoTimer"
 @onready var walk_state: Node2D = $"../States/WalkState"
 
-
 func _process(_delta: float):
 	var point = map(photo_timer.time_left, 0, photo_timer.wait_time, 1.0, 0.0)
 	
