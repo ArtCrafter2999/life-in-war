@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://f15d5nw2saa1"]
+[gd_scene load_steps=19 format=3 uid="uid://f15d5nw2saa1"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_m04ww"]
 [ext_resource type="Texture2D" uid="uid://cixhno4hvh0k2" path="res://icon.svg" id="2_aqhrw"]
+[ext_resource type="Script" path="res://player/paused_state.gd" id="2_pryi3"]
 [ext_resource type="Script" path="res://state_machine/state_machine.gd" id="2_seln4"]
 [ext_resource type="Script" path="res://player/states/walk_state.gd" id="3_l380g"]
 [ext_resource type="Script" path="res://player/states/focusing_state.gd" id="4_f0j0x"]
@@ -14,6 +15,21 @@
 shader = ExtResource("6_0n2on")
 shader_parameter/lod = 0.0
 
+[sub_resource type="Animation" id="Animation_q0hqq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ShaderRect:material:shader_parameter/lod")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
 [sub_resource type="Animation" id="Animation_e2kqe"]
 resource_name = "focus"
 length = 1.5
@@ -22,7 +38,7 @@ tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("ShaderRect:material:shader_parameter/lod")
-tracks/0/interp = 1
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.3, 0.9, 1, 1.2, 1.5),
@@ -45,21 +61,6 @@ tracks/1/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_q0hqq"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ShaderRect:material:shader_parameter/lod")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5xe02"]
 _data = {
 "RESET": SubResource("Animation_q0hqq"),
@@ -68,33 +69,6 @@ _data = {
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3gaqb"]
 radius = 60.531
-
-[sub_resource type="Animation" id="Animation_5ikmr"]
-resource_name = "slide"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(398, 697), Vector2(364, 17)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:rotation")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [-0.0733038, 0.0523599]
-}
 
 [sub_resource type="Animation" id="Animation_o8oo2"]
 length = 0.001
@@ -123,6 +97,33 @@ tracks/1/keys = {
 "values": [-0.0733038]
 }
 
+[sub_resource type="Animation" id="Animation_5ikmr"]
+resource_name = "slide"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(398, 697), Vector2(364, 17)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-0.0733038, 0.0523599]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sjw8i"]
 _data = {
 "RESET": SubResource("Animation_o8oo2"),
@@ -132,6 +133,18 @@ _data = {
 [node name="Player" type="CharacterBody2D"]
 motion_mode = 1
 script = ExtResource("1_m04ww")
+
+[node name="PausedState" type="CanvasLayer" parent="."]
+script = ExtResource("2_pryi3")
+
+[node name="paused_panel" type="ColorRect" parent="PausedState"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.254902)
 
 [node name="States" type="Node2D" parent="." node_paths=PackedStringArray("begining_state")]
 script = ExtResource("2_seln4")
@@ -198,6 +211,7 @@ close_photo_state = NodePath("../WalkState")
 [node name="PhotoLayer" type="CanvasLayer" parent="States/ShowPhotoState"]
 
 [node name="PhotoImage" type="TextureRect" parent="States/ShowPhotoState/PhotoLayer"]
+visible = false
 offset_left = 398.0
 offset_top = 697.0
 offset_right = 872.0

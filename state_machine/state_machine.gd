@@ -17,14 +17,17 @@ func on_child_entered_tree(node: Node):
 		node.machine = self;
 
 func _input(event: InputEvent) -> void:
+	if(Pause.is_paused): return;
 	if(!state): return
 	state.input(event);
 
 func _process(delta: float) -> void:
+	if(Pause.is_paused): return;
 	if(!state): return
 	state.process(delta);
 	
 func _physics_process(delta: float) -> void:
+	if(Pause.is_paused): return;
 	if(!state): return
 	state.physics_process(delta)
 
