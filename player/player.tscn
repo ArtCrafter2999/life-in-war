@@ -1,35 +1,186 @@
-[gd_scene load_steps=9 format=3 uid="uid://f15d5nw2saa1"]
+[gd_scene load_steps=19 format=3 uid="uid://f15d5nw2saa1"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_m04ww"]
 [ext_resource type="Texture2D" uid="uid://cixhno4hvh0k2" path="res://icon.svg" id="2_aqhrw"]
+[ext_resource type="Script" path="res://player/paused_state.gd" id="2_pryi3"]
 [ext_resource type="Script" path="res://state_machine/state_machine.gd" id="2_seln4"]
 [ext_resource type="Script" path="res://player/states/walk_state.gd" id="3_l380g"]
-[ext_resource type="Script" path="res://player/states/inspired_state.gd" id="3_p2ble"]
-[ext_resource type="Script" path="res://player/states/check_insperation.gd" id="5_nxewv"]
+[ext_resource type="Script" path="res://player/states/focusing_state.gd" id="4_f0j0x"]
+[ext_resource type="Script" path="res://screen/screen.gd" id="5_dgivy"]
+[ext_resource type="Script" path="res://player/states/check_photo_state.gd" id="5_nxewv"]
+[ext_resource type="Shader" path="res://shaders/screen_shader.gdshader" id="6_0n2on"]
 [ext_resource type="Script" path="res://player/states/show_photo_state.gd" id="8_nf2ve"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_432w7"]
+shader = ExtResource("6_0n2on")
+shader_parameter/lod = 0.0
+
+[sub_resource type="Animation" id="Animation_q0hqq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ShaderRect:material:shader_parameter/lod")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_e2kqe"]
+resource_name = "focus"
+length = 1.5
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ShaderRect:material:shader_parameter/lod")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.9, 1, 1.2, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 2.2, 0.1, 0.5, 2.2, 0.0]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"focused"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5xe02"]
+_data = {
+"RESET": SubResource("Animation_q0hqq"),
+"focus": SubResource("Animation_e2kqe")
+}
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3gaqb"]
 radius = 60.531
+
+[sub_resource type="Animation" id="Animation_o8oo2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(398, 697)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.0733038]
+}
+
+[sub_resource type="Animation" id="Animation_5ikmr"]
+resource_name = "slide"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(398, 697), Vector2(364, 17)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-0.0733038, 0.0523599]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sjw8i"]
+_data = {
+"RESET": SubResource("Animation_o8oo2"),
+"slide": SubResource("Animation_5ikmr")
+}
 
 [node name="Player" type="CharacterBody2D"]
 motion_mode = 1
 script = ExtResource("1_m04ww")
 
+[node name="PausedState" type="CanvasLayer" parent="."]
+script = ExtResource("2_pryi3")
+
+[node name="paused_panel" type="ColorRect" parent="PausedState"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.254902)
+
 [node name="States" type="Node2D" parent="." node_paths=PackedStringArray("begining_state")]
 script = ExtResource("2_seln4")
 begining_state = NodePath("WalkState")
 
-[node name="WalkState" type="Node2D" parent="States" node_paths=PackedStringArray("long_idle_state")]
+[node name="WalkState" type="Node2D" parent="States" node_paths=PackedStringArray("focus_state")]
 script = ExtResource("3_l380g")
-long_idle_state = NodePath("../CheckInsperation")
+focus_state = NodePath("../FocusingState")
 
-[node name="PhotoTimer" type="Timer" parent="States/WalkState"]
-wait_time = 3.0
+[node name="FocusingState" type="Node2D" parent="States" node_paths=PackedStringArray("released_focus_state", "focused_state")]
+script = ExtResource("4_f0j0x")
+released_focus_state = NodePath("../WalkState")
+focused_state = NodePath("../CheckInsperation")
 
-[node name="CheckInsperation" type="Node2D" parent="States" node_paths=PackedStringArray("no_inspiration_state", "inspiration_state")]
+[node name="Blur" type="CanvasLayer" parent="States/FocusingState"]
+script = ExtResource("5_dgivy")
+
+[node name="ShaderRect" type="ColorRect" parent="States/FocusingState/Blur"]
+z_index = 1
+material = SubResource("ShaderMaterial_432w7")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="States/FocusingState/Blur"]
+libraries = {
+"": SubResource("AnimationLibrary_5xe02")
+}
+
+[node name="CheckInsperation" type="Node2D" parent="States" node_paths=PackedStringArray("released_focus_state", "take_photo_state")]
 script = ExtResource("5_nxewv")
-no_inspiration_state = NodePath("../WalkState")
-inspiration_state = NodePath("../InspiredState")
+released_focus_state = NodePath("../WalkState")
+take_photo_state = NodePath("../ShowPhotoState")
 
 [node name="InsperationArea" type="Area2D" parent="States/CheckInsperation"]
 collision_mask = 2
@@ -38,13 +189,16 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="States/CheckInsperation/InsperationArea"]
 shape = SubResource("CircleShape2D_3gaqb")
 
-[node name="InspiredState" type="Node2D" parent="States" node_paths=PackedStringArray("moved_state", "make_photo_state")]
-script = ExtResource("3_p2ble")
-moved_state = NodePath("../WalkState")
-make_photo_state = NodePath("../ShowPhotoState")
-
-[node name="PhotoAvailableUI" type="Sprite2D" parent="States/InspiredState"]
+[node name="PhotoAvailableUI" type="Sprite2D" parent="States/CheckInsperation"]
 modulate = Color(1, 1, 1, 0)
+z_index = 10
+position = Vector2(0, -117)
+scale = Vector2(0.427, 0.427)
+texture = ExtResource("2_aqhrw")
+
+[node name="CantPhotoUI" type="Sprite2D" parent="States/CheckInsperation"]
+modulate = Color(1, 0, 0, 0)
+self_modulate = Color(1, 0, 0, 1)
 z_index = 10
 position = Vector2(0, -117)
 scale = Vector2(0.427, 0.427)
@@ -58,11 +212,18 @@ close_photo_state = NodePath("../WalkState")
 
 [node name="PhotoImage" type="TextureRect" parent="States/ShowPhotoState/PhotoLayer"]
 visible = false
-offset_left = 364.0
-offset_top = 17.0
-offset_right = 838.0
-offset_bottom = 601.0
-rotation = 0.0523599
+offset_left = 398.0
+offset_top = 697.0
+offset_right = 872.0
+offset_bottom = 1281.0
+rotation = -0.0733038
+texture = ExtResource("2_aqhrw")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="States/ShowPhotoState/PhotoLayer"]
+root_node = NodePath("../PhotoImage")
+libraries = {
+"": SubResource("AnimationLibrary_sjw8i")
+}
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_aqhrw")
@@ -73,5 +234,3 @@ texture = ExtResource("2_aqhrw")
 shape = SubResource("CircleShape2D_3gaqb")
 
 [node name="Camera" type="Camera2D" parent="."]
-
-[connection signal="timeout" from="States/WalkState/PhotoTimer" to="States/WalkState" method="_on_timer_timeout"]

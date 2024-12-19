@@ -1,0 +1,99 @@
+[gd_scene load_steps=13 format=3 uid="uid://f15d5nw2saa1"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_m04ww"]
+[ext_resource type="Texture2D" uid="uid://cixhno4hvh0k2" path="res://icon.svg" id="2_aqhrw"]
+[ext_resource type="Script" path="res://state_machine/state_machine.gd" id="2_seln4"]
+[ext_resource type="Script" path="res://player/states/walk_state.gd" id="3_l380g"]
+[ext_resource type="Script" path="res://player/states/focusing_state.gd" id="4_f0j0x"]
+[ext_resource type="Script" path="res://player/states/check_photo_state.gd" id="5_hyhjs"]
+[ext_resource type="Shader" path="res://player/camera_bar.gdshader" id="8_8t3fm"]
+[ext_resource type="Script" path="res://player/states/show_photo_state.gd" id="8_nf2ve"]
+[ext_resource type="Texture2D" uid="uid://3w22h8enexd6" path="res://player/camera_bar.png" id="9_jsw10"]
+[ext_resource type="Script" path="res://player/camera_bar.gd" id="10_pifvw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3gaqb"]
+radius = 60.531
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sgxh2"]
+shader = ExtResource("8_8t3fm")
+shader_parameter/modulate = Color(0.352941, 0.921569, 0.831373, 1)
+shader_parameter/value = 0.1
+
+[node name="Player" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_m04ww")
+
+[node name="States" type="Node2D" parent="." node_paths=PackedStringArray("begining_state")]
+script = ExtResource("2_seln4")
+begining_state = NodePath("WalkState")
+
+[node name="WalkState" type="Node2D" parent="States"]
+script = ExtResource("3_l380g")
+
+[node name="FocusingState" type="Node2D" parent="States" node_paths=PackedStringArray("released_focus_state", "focused_state")]
+script = ExtResource("4_f0j0x")
+released_focus_state = NodePath("../WalkState")
+focused_state = NodePath("../CheckInsperation")
+
+[node name="Timer" type="Timer" parent="States/FocusingState"]
+wait_time = 3.0
+
+[node name="CheckInsperation" type="Node2D" parent="States"]
+script = ExtResource("5_hyhjs")
+
+[node name="InsperationArea" type="Area2D" parent="States/CheckInsperation"]
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="States/CheckInsperation/InsperationArea"]
+shape = SubResource("CircleShape2D_3gaqb")
+
+[node name="PhotoAvailableUI" type="Sprite2D" parent="States/CheckInsperation"]
+modulate = Color(1, 1, 1, 0)
+z_index = 10
+position = Vector2(0, -117)
+scale = Vector2(0.427, 0.427)
+texture = ExtResource("2_aqhrw")
+
+[node name="CantPhotoUI" type="Sprite2D" parent="States/CheckInsperation"]
+modulate = Color(1, 0, 0, 0)
+self_modulate = Color(1, 0, 0, 1)
+z_index = 10
+position = Vector2(0, -117)
+scale = Vector2(0.427, 0.427)
+texture = ExtResource("2_aqhrw")
+
+[node name="InspiredState" type="Node2D" parent="States"]
+
+[node name="ShowPhotoState" type="Node2D" parent="States" node_paths=PackedStringArray("close_photo_state")]
+script = ExtResource("8_nf2ve")
+close_photo_state = NodePath("../WalkState")
+
+[node name="PhotoLayer" type="CanvasLayer" parent="States/ShowPhotoState"]
+
+[node name="PhotoImage" type="TextureRect" parent="States/ShowPhotoState/PhotoLayer"]
+visible = false
+offset_left = 364.0
+offset_top = 17.0
+offset_right = 838.0
+offset_bottom = 601.0
+rotation = 0.0523599
+
+[node name="CameraBar" type="Sprite2D" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_sgxh2")
+position = Vector2(1.52588e-05, -1.90735e-06)
+rotation = 3.14159
+scale = Vector2(10.6471, 10.6471)
+texture = ExtResource("9_jsw10")
+script = ExtResource("10_pifvw")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_aqhrw")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3gaqb")
+
+[node name="Camera" type="Camera2D" parent="."]
