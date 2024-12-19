@@ -9,7 +9,8 @@ func physics_process(delta: float) -> void:
 	var direction = Input.get_vector("Left", "Right", "Up", "Down");
 	
 	player.velocity += direction * SPEED;
-	
+
+func _physics_process(delta: float) -> void:
 	player.move_and_slide()
 
 func input(event: InputEvent): 

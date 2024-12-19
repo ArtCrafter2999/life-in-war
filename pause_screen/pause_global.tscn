@@ -4,5 +4,3 @@
 
 [node name="PauseState" type="Node"]
 script = ExtResource("1_8rt4u")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]

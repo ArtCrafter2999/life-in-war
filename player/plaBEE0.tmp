@@ -1,10 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://f15d5nw2saa1"]
+[gd_scene load_steps=19 format=3 uid="uid://f15d5nw2saa1"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_m04ww"]
 [ext_resource type="Texture2D" uid="uid://cixhno4hvh0k2" path="res://icon.svg" id="2_aqhrw"]
 [ext_resource type="Script" path="res://player/paused_state.gd" id="2_pryi3"]
 [ext_resource type="Script" path="res://state_machine/state_machine.gd" id="2_seln4"]
-[ext_resource type="Script" path="res://player/container.gd" id="3_kpibt"]
 [ext_resource type="Script" path="res://player/states/walk_state.gd" id="3_l380g"]
 [ext_resource type="Script" path="res://player/states/focusing_state.gd" id="4_f0j0x"]
 [ext_resource type="Script" path="res://screen/screen.gd" id="5_dgivy"]
@@ -139,59 +138,13 @@ script = ExtResource("1_m04ww")
 script = ExtResource("2_pryi3")
 
 [node name="paused_panel" type="ColorRect" parent="PausedState"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.254902)
-metadata/_edit_lock_ = true
-
-[node name="Container" type="Container" parent="PausedState/paused_panel"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -134.0
-grow_horizontal = 2
-grow_vertical = 0
-script = ExtResource("3_kpibt")
-
-[node name="PhotoImage" type="TextureRect" parent="PausedState/paused_panel/Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_aqhrw")
-
-[node name="PhotoImage2" type="TextureRect" parent="PausedState/paused_panel/Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_aqhrw")
-
-[node name="PhotoImage3" type="TextureRect" parent="PausedState/paused_panel/Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_aqhrw")
-
-[node name="PhotoImage4" type="TextureRect" parent="PausedState/paused_panel/Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_aqhrw")
-
-[node name="PhotoImage5" type="TextureRect" parent="PausedState/paused_panel/Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_aqhrw")
-
-[node name="PhotoImage6" type="TextureRect" parent="PausedState/paused_panel/Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_aqhrw")
-
-[node name="PhotoImage7" type="TextureRect" parent="PausedState/paused_panel/Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_aqhrw")
 
 [node name="States" type="Node2D" parent="." node_paths=PackedStringArray("begining_state")]
 script = ExtResource("2_seln4")
@@ -218,7 +171,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
-metadata/_edit_lock_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="States/FocusingState/Blur"]
 libraries = {
