@@ -1,16 +1,20 @@
-[gd_scene load_steps=20 format=3 uid="uid://f15d5nw2saa1"]
+[gd_scene load_steps=31 format=3 uid="uid://f15d5nw2saa1"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_m04ww"]
 [ext_resource type="Texture2D" uid="uid://cixhno4hvh0k2" path="res://icon.svg" id="2_aqhrw"]
 [ext_resource type="Script" path="res://player/paused_state.gd" id="2_pryi3"]
 [ext_resource type="Script" path="res://state_machine/state_machine.gd" id="2_seln4"]
-[ext_resource type="Script" path="res://player/container.gd" id="3_kpibt"]
 [ext_resource type="Script" path="res://player/states/walk_state.gd" id="3_l380g"]
 [ext_resource type="Script" path="res://player/states/focusing_state.gd" id="4_f0j0x"]
 [ext_resource type="Script" path="res://screen/screen.gd" id="5_dgivy"]
 [ext_resource type="Script" path="res://player/states/check_photo_state.gd" id="5_nxewv"]
 [ext_resource type="Shader" path="res://shaders/screen_shader.gdshader" id="6_0n2on"]
 [ext_resource type="Script" path="res://player/states/show_photo_state.gd" id="8_nf2ve"]
+[ext_resource type="Texture2D" uid="uid://ljsq3e645n0h" path="res://player/animations/front-idle.png" id="11_uhgvv"]
+[ext_resource type="Texture2D" uid="uid://c0g8t3ej5knjf" path="res://player/animations/back-idle.png" id="12_fwu40"]
+[ext_resource type="Texture2D" uid="uid://chrbtuqgn73iy" path="res://player/animations/front-walk.png" id="13_78ijr"]
+[ext_resource type="Texture2D" uid="uid://bw5wgd2e38e2r" path="res://player/animations/back-walk.png" id="14_hwb16"]
+[ext_resource type="Texture2D" uid="uid://b51uaqqyscn4g" path="res://player/animations/side-walk.png" id="15_kug5j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_432w7"]
 shader = ExtResource("6_0n2on")
@@ -131,6 +135,193 @@ _data = {
 "slide": SubResource("Animation_5ikmr")
 }
 
+[sub_resource type="Animation" id="Animation_pi2j8"]
+resource_name = "front-walk"
+length = 2.25001
+loop_mode = 1
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("13_78ijr")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5, 1.625, 1.75, 1.875, 2, 2.125),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+}
+
+[sub_resource type="Animation" id="Animation_n6krp"]
+resource_name = "back-walk"
+length = 2.25001
+loop_mode = 1
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("14_hwb16")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5, 1.625, 1.75, 1.875, 2, 2.125),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+}
+
+[sub_resource type="Animation" id="Animation_5fxt4"]
+resource_name = "side-walk"
+length = 2.25001
+loop_mode = 1
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("15_kug5j")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5, 1.625, 1.75, 1.875, 2, 2.125),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+}
+
+[sub_resource type="Animation" id="Animation_pkihw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("11_uhgvv")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_n315y"]
+resource_name = "back-idle"
+length = 2.25001
+loop_mode = 1
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("12_fwu40")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5, 1.625, 1.75, 1.875, 2, 2.125),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+}
+
+[sub_resource type="Animation" id="Animation_e23rv"]
+resource_name = "front-idle"
+length = 2.25001
+loop_mode = 1
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("11_uhgvv")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5, 1.625, 1.75, 1.875, 2, 2.125),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_afj6o"]
+_data = {
+"RESET": SubResource("Animation_pkihw"),
+"back-idle": SubResource("Animation_n315y"),
+"back-walk": SubResource("Animation_n6krp"),
+"front-idle": SubResource("Animation_e23rv"),
+"front-walk": SubResource("Animation_pi2j8"),
+"side-walk": SubResource("Animation_5fxt4")
+}
+
 [node name="Player" type="CharacterBody2D"]
 motion_mode = 1
 script = ExtResource("1_m04ww")
@@ -139,6 +330,7 @@ script = ExtResource("1_m04ww")
 script = ExtResource("2_pryi3")
 
 [node name="paused_panel" type="ColorRect" parent="PausedState"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -146,52 +338,6 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.254902)
 metadata/_edit_lock_ = true
-
-[node name="Container" type="Container" parent="PausedState/paused_panel"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -134.0
-grow_horizontal = 2
-grow_vertical = 0
-script = ExtResource("3_kpibt")
-
-[node name="PhotoImage" type="TextureRect" parent="PausedState/paused_panel/Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_aqhrw")
-
-[node name="PhotoImage2" type="TextureRect" parent="PausedState/paused_panel/Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_aqhrw")
-
-[node name="PhotoImage3" type="TextureRect" parent="PausedState/paused_panel/Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_aqhrw")
-
-[node name="PhotoImage4" type="TextureRect" parent="PausedState/paused_panel/Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_aqhrw")
-
-[node name="PhotoImage5" type="TextureRect" parent="PausedState/paused_panel/Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_aqhrw")
-
-[node name="PhotoImage6" type="TextureRect" parent="PausedState/paused_panel/Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_aqhrw")
-
-[node name="PhotoImage7" type="TextureRect" parent="PausedState/paused_panel/Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("2_aqhrw")
 
 [node name="States" type="Node2D" parent="." node_paths=PackedStringArray("begining_state")]
 script = ExtResource("2_seln4")
@@ -274,9 +420,14 @@ libraries = {
 }
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_aqhrw")
+y_sort_enabled = true
+texture = ExtResource("11_uhgvv")
+hframes = 18
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_afj6o")
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_3gaqb")
