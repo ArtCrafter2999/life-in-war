@@ -12,7 +12,6 @@ radius = 211.91
 [node name="Player" parent="." instance=ExtResource("1_6yjy7")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-y_sort_enabled = true
 position = Vector2(-406, -65)
 texture = ExtResource("2_vlpxc")
 metadata/_edit_group_ = true
